@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SURPRISE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    background: black;
+    color: #00ff55;
+    font-family: monospace;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* --- SURPRISE GLITCH, SHAKE, FLASH, STATIC COMBINED --- */
+#surpriseText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 70px;
+    font-weight: bold;
+    color: #ff0044;
+    opacity: 0.3;
+    text-shadow: 0 0 20px #ff0022, 0 0 50px #ff0033;
+    animation:
+        pulse 1.5s infinite alternate,
+        glitch 0.5s infinite,
+        shake 0.3s infinite;
+}
+
+/* Pulse brightness */
+@keyframes pulse {
+    0% { opacity: 0.15; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.45; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* Glitch distortion */
+@keyframes glitch {
+    0% { text-shadow: 2px 0 red, -2px 0 cyan; }
+    20% { text-shadow: -3px 0 red, 3px 0 cyan; }
+    40% { text-shadow: 3px 0 red, -3px 0 cyan; }
+    60% { text-shadow: -2px 0 red, 2px 0 cyan; }
+    80% { text-shadow: 4px 0 red, -4px 0 cyan; }
+    100% { text-shadow: -4px 0 red, 4px 0 cyan; }
+}
+
+/* Shake vibration */
+@keyframes shake {
+    0% { transform: translate(-50%, -50%) translateX(0); }
+    25% { transform: translate(-50%, -50%) translateX(-3px); }
+    50% { transform: translate(-50%, -50%) translateX(3px); }
+    75% { transform: translate(-50%, -50%) translateX(-2px); }
+    100% { transform: translate(-50%, -50%) translateX(2px); }
+}
+
+/* CRT Static overlay */
+#staticNoise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.imgur.com/7V3Q0KQ.gif');
+    opacity: 0.12;
+    pointer-events: none;
+}
+
+/* Terminal */
+#screen {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    background: rgba(0,0,0,0.5);
+    padding: 12px;
+    border: 1px solid #00ff55;
+    max-height: 55%;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+.blink {
+    animation: blink 0.6s infinite alternate;
+}
+@keyframes blink {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+.red {
+    color: #ff3333;
+    text-shadow: 0 0 10px red;
+    font-weight: bold;
+}
+</style>
+
+<script>
+let started = false;
+
+function fakeHackPopup() {
+    alert("⚠️ WARNING!\nSuspicious activity detected...\nRunning high‑level scan...");
+}
+
+function startHack() {
+    if (started) return;
+    started = true;
+
+    let screen = document.getElementById("screen");
+
+    let lines = [
+        "[BOOT] Secure OS loading...",
+        "[OK] system/kernel/init — done",
+        "[SCAN] Starting deep security analysis...",
+        "<span class='red'>[DETECTION] Unknown signature detected!</span>",
+        "<span class='red'>[ALERT] Unauthorized signal detected!</span>",
+        "<span class='red'>[ALERT] System risk level: CRITICAL</span>",
+        "[ACCESS] Attempting forced root elevation...",
+        "<span class='red'>[GRANTED] Unauthorized ROOT ACCESS!</span>",
+        "[LINK] Contacting external node...",
+        "[ONLINE] Encryption handshake successful.",
+        "<span class='red'>[BREACH] Data relay confirmed!</span>",
+        "",
+        ">> Decrypting system modules...",
+        ">> Injecting override sequences...",
+        ">> Gathering location data...",
+        ">> Activating camera interface...",
+        "",
+        "<span class='red'>*** SECURITY OVERRIDE COMPLETE ***</span>"
+    ];
+
+    let i = 0;
+
+    let interval = setInterval(() => {
+        if (i < lines.length) {
+            screen.innerHTML += lines[i] + "\n";
+            screen.scrollTop = screen.scrollHeight;
+            i++;
+        } else {
+            screen.innerHTML += "\n<span class='blink red'>[SYSTEM LOCKED]</span>";
+            screen.scrollTop = screen.scrollHeight;
+            clearInterval(interval);
+        }
+    }, 380);
+}
+
+document.addEventListener("click", () => {
+    fakeHackPopup();
+    startHack();
+});
+document.addEventListener("touchstart", () => {
+    fakeHackPopup();
+    startHack();
+});
+</script>
+
+</head>
+
+<body>
+
+<div id="surpriseText">SURPRISE</div>
+<div id="staticNoise"></div>
+<div id="screen">Tap anywhere to initialize system...</div>
+
+</body>
+</html>
