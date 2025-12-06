@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Activity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    background: black;
+    color: #00ff55;
+    font-family: monospace;
+    padding: 20px;
+    overflow: hidden;
+    margin: 0;
+}
+#screen {
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+.blink {
+    animation: blink 0.6s infinite alternate;
+}
+@keyframes blink {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+</style>
+
+<script>
+let started = false;
+
+function fakeHackPopup() {
+    alert("⚠️ WARNING!\nSuspicious activity detected...\nRunning security scan...");
+}
+
+function startHack() {
+    if (started) return;
+    started = true;
+
+    let screen = document.getElementById("screen");
+
+    let lines = [
+        "[BOOT] Secure OS loading...",
+        "[OK] system/kernel/init — done",
+        "[SCAN] Checking device integrity...",
+        "[WARNING] Suspicious files found!",
+        "[ACCESS] Attempting root override...",
+        "[GRANT] ROOT ACCESS ACQUIRED ✔",
+        "[LINK] Connecting to remote server...",
+        "[ONLINE] Encryption key synced.",
+        "[BREACH] Uploading system logs...",
+        "[SUCCESS] Device compromised.",
+        "",
+        ">> Decrypting files...",
+        ">> Injecting scripts...",
+        ">> Tracking GPS...",
+        ">> Accessing camera...",
+        "",
+        "*** HACK COMPLETE ***"
+    ];
+
+    let i = 0;
+
+    let interval = setInterval(() => {
+        if (i < lines.length) {
+            screen.textContent += "\n" + lines[i];
+            i++;
+        } else {
+            screen.innerHTML += "\n\n<span class='blink'>[SYSTEM LOCKED]</span>";
+            clearInterval(interval);
+        }
+    }, 400);
+}
+
+// On any tap/click → run popup + hacking sequence
+document.addEventListener("click", () => {
+    fakeHackPopup();
+    startHack();
+});
+document.addEventListener("touchstart", () => {
+    fakeHackPopup();
+    startHack();
+});
+</script>
+
+</head>
+
+<body>
+<div id="screen">Tap anywhere to initialize system...</div>
+</body>
+</html>
